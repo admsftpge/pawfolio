@@ -9,4 +9,5 @@ if (!apiKey) {
 export const config = {
   catApiKey: apiKey,
   catApiBaseUrl: 'https://api.thecatapi.com/v1',
+  catApiMaxPageSize: 100,
 } as const;
