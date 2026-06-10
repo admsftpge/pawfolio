@@ -38,7 +38,7 @@ npm run lint      # eslint
 | 4. Vote up / down | Pill on each card → `POST /votes` with value ±1 |
 | 5. Score per cat | Sum of vote values (ups − downs), computed client-side from `GET /votes` |
 
-Plus a bonus **Favourites tab** (the same cats filtered to hearted ones)
+Beyond the spec: a **Favourites tab** (the same cats filtered to hearted ones) and **deleting uploads** (long-press a card → confirm → `DELETE /images/:id`, removed optimistically). Any favourites or votes left pointing at a deleted image are ignored by the join — a case the unit tests pin down.
 
 ## Architecture
 
@@ -68,7 +68,7 @@ screens (src/app)            – render state, fire callbacks; no business logic
 ## Known limitations / future work
 
 - **No vote retraction** — once you've voted, a cat can't return to score 0 (the API supports `DELETE /votes/:id`; a Reddit-style "tap your active vote to retract" is the natural extension, needing the join to also expose your current vote).
-- **No deleting uploads** — scoped (long-press → confirm → `DELETE /images/:id`, optimistic removal) but consciously shelved in favour of polish.
+- **Delete is long-press only** — no visible affordance on the card (kept clutter-free); discoverability relies on this README and the accessibility hint.
 - **Failed optimistic updates roll back silently** — a toast explaining *why* the heart snapped back would be kinder.
 - **Image list caps at 100** — pagination matters less for a personal collection than for votes; noted as a TODO in `images.ts`.
 - **Default Expo icon/splash** — branding stops at the runtime UI.

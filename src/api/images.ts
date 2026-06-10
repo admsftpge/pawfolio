@@ -52,3 +52,7 @@ export async function uploadImage(file: UploadFile) {
   const response = await catApi.post('/images/upload', form);
   return uploadResponseSchema.parse(response.data);
 }
+
+export async function deleteImage(imageId: string): Promise<void> {
+  await catApi.delete(`/images/${imageId}`);
+}
