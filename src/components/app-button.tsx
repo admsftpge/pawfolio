@@ -1,7 +1,7 @@
 import { ActivityIndicator, Pressable, StyleSheet } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
-import { Spacing } from '@/constants/theme';
+import { Radius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
 type Props = {
@@ -23,13 +23,13 @@ export function AppButton({ title, onPress, disabled, loading }: Props) {
       disabled={inactive}
       style={({ pressed }) => [
         styles.button,
-        { backgroundColor: theme.text },
+        { backgroundColor: theme.accent },
         (pressed || inactive) && styles.dimmed,
       ]}>
       {loading ? (
-        <ActivityIndicator color={theme.background} />
+        <ActivityIndicator color={theme.accentOn} />
       ) : (
-        <ThemedText type="smallBold" themeColor="background">
+        <ThemedText type="smallBold" themeColor="accentOn">
           {title}
         </ThemedText>
       )}
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: Spacing.three,
+    borderRadius: Radius.md,
     paddingVertical: Spacing.three,
     paddingHorizontal: Spacing.four,
     minHeight: 48,
