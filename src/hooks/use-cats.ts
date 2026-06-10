@@ -18,10 +18,12 @@ export function useCats() {
   const favourites = useQuery({ queryKey: queryKeys.favourites, queryFn: listFavourites });
   const votes = useQuery({ queryKey: queryKeys.votes, queryFn: listAllVotes });
 
+  // Images are the screen's content; favourites and votes only decorate it, so
+  // their failures degrade (no hearts / score 0) instead of hiding the grid.
   const cats = useMemo(
     () =>
-      images.data && favourites.data && votes.data
-        ? buildCatCards(images.data, favourites.data, votes.data)
+      images.data
+        ? buildCatCards(images.data, favourites.data ?? [], votes.data ?? [])
         : undefined,
     [images.data, favourites.data, votes.data],
   );
@@ -29,7 +31,7 @@ export function useCats() {
   return {
     cats,
     isLoading: images.isPending || favourites.isPending || votes.isPending,
-    error: images.error ?? favourites.error ?? votes.error,
+    error: images.error,
     refetch: () =>
       Promise.all([images.refetch(), favourites.refetch(), votes.refetch()]),
   };
