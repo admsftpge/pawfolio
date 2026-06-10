@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -8,9 +9,10 @@ import { Spacing } from '@/constants/theme';
 type Props = {
   title: string;
   subtitle: string;
+  action?: ReactNode;
 };
 
-export function ScreenPlaceholder({ title, subtitle }: Props) {
+export function ScreenPlaceholder({ title, subtitle, action }: Props) {
   return (
     <ThemedView style={styles.container}>
       <SafeAreaView style={styles.content}>
@@ -18,6 +20,7 @@ export function ScreenPlaceholder({ title, subtitle }: Props) {
         <ThemedText type="default" themeColor="textSecondary">
           {subtitle}
         </ThemedText>
+        {action}
       </SafeAreaView>
     </ThemedView>
   );
