@@ -16,9 +16,9 @@ export function useVote() {
 
     mutationFn: ({ imageId, value }) => addVote(imageId, value),
 
-    // The API keeps one vote per user per image (upsert), so replace rather than append.
+    // Each tap is its own vote, so append — the score accumulates.
     update: (votes, { imageId, value }) => [
-      ...votes.filter((vote) => vote.image_id !== imageId),
+      ...votes,
       { id: OPTIMISTIC_VOTE_ID, image_id: imageId, value },
     ],
   });

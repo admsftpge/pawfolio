@@ -1,11 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
-import { useEffect, useRef } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
-import Animated from 'react-native-reanimated';
 
 import { ThemedText } from '@/components/themed-text';
 import { Radius, Spacing } from '@/constants/theme';
-import { usePopAnimation } from '@/hooks/use-pop-animation';
 import { useTheme } from '@/hooks/use-theme';
 import { useVote } from '@/hooks/use-vote';
 
@@ -19,24 +16,12 @@ export function VoteControls({ imageId, score }: Props) {
   const theme = useTheme();
   const vote = useVote();
 
-  const { style: popStyle, pop } = usePopAnimation();
-
-  // Pop the score when it changes, but not on first mount.
-  const previousScore = useRef(score);
-  useEffect(() => {
-    if (previousScore.current !== score) {
-      previousScore.current = score;
-      pop();
-    }
-  }, [score, pop]);
-
   return (
     <View
       style={[styles.pill, { backgroundColor: theme.surface, borderColor: theme.border }]}>
       <Pressable
         accessibilityRole="button"
         accessibilityLabel="Vote this cat up"
-        disabled={vote.isPending}
         hitSlop={Spacing.two}
         onPress={() => vote.mutate({ imageId, value: 1 })}
         style={({ pressed }) => [
@@ -47,16 +32,13 @@ export function VoteControls({ imageId, score }: Props) {
         <Ionicons name="caret-up" size={18} color={theme.success} />
       </Pressable>
 
-      <Animated.View style={popStyle}>
-        <ThemedText style={styles.score} accessibilityLabel={`Score ${score}`}>
-          {score}
-        </ThemedText>
-      </Animated.View>
+      <ThemedText style={styles.score} accessibilityLabel={`Score ${score}`}>
+        {score}
+      </ThemedText>
 
       <Pressable
         accessibilityRole="button"
         accessibilityLabel="Vote this cat down"
-        disabled={vote.isPending}
         hitSlop={Spacing.two}
         onPress={() => vote.mutate({ imageId, value: -1 })}
         style={({ pressed }) => [
