@@ -12,13 +12,18 @@ export async function normalizeImageToJpeg(
   width: number,
   height: number,
 ): Promise<string> {
-  const context = ImageManipulator.manipulate(uri);
+  try {
+    const context = ImageManipulator.manipulate(uri);
 
-  if (Math.max(width, height) > MAX_DIMENSION) {
-    context.resize(width >= height ? { width: MAX_DIMENSION } : { height: MAX_DIMENSION });
+    if (Math.max(width, height) > MAX_DIMENSION) {
+      context.resize(width >= height ? { width: MAX_DIMENSION } : { height: MAX_DIMENSION });
+    }
+
+    const rendered = await context.renderAsync();
+    const result = await rendered.saveAsync({ format: SaveFormat.JPEG, compress: 0.8 });
+    return result.uri;
+  } catch {
+    // The manipulator's own errors are raw native strings — not for users.
+    throw new Error('We couldn’t process that photo — please try a different one.');
   }
-
-  const rendered = await context.renderAsync();
-  const result = await rendered.saveAsync({ format: SaveFormat.JPEG, compress: 0.8 });
-  return result.uri;
 }
