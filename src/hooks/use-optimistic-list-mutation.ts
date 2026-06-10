@@ -20,6 +20,7 @@ export function useOptimisticListMutation<TInput, TItem>({
   const queryClient = useQueryClient();
 
   return useMutation({
+    mutationKey: [queryKey],
     mutationFn,
 
     onMutate: async (input: TInput) => {
@@ -37,6 +38,13 @@ export function useOptimisticListMutation<TInput, TItem>({
       }
     },
 
-    onSettled: () => queryClient.invalidateQueries({ queryKey }),
+    // Reconcile only when the LAST in-flight mutation on this key settles —
+    // rapid taps would otherwise each trigger a full refetch that races the
+    // server and makes the optimistic score flicker.
+    onSettled: () => {
+      if (queryClient.isMutating({ mutationKey: [queryKey] }) === 1) {
+        return queryClient.invalidateQueries({ queryKey });
+      }
+    },
   });
 }
