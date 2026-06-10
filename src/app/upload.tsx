@@ -10,7 +10,7 @@ import { getApiErrorMessage } from '@/api/client';
 import { AppButton } from '@/components/app-button';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Radius, Spacing } from '@/constants/theme';
+import { FormMaxWidth, Radius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { useUploadCat } from '@/hooks/use-upload-cat';
 
@@ -134,6 +134,9 @@ const styles = StyleSheet.create({
   content: {
     padding: Spacing.four,
     gap: Spacing.four,
+    width: '100%',
+    maxWidth: FormMaxWidth,
+    alignSelf: 'center',
   },
   preview: {
     width: '100%',

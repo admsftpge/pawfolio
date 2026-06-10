@@ -87,4 +87,8 @@ export const Spacing = {
 } as const;
 
 export const BottomTabInset = Platform.select({ ios: 50, android: 80 }) ?? 0;
-export const MaxContentWidth = 800;
+
+// On wide (web/tablet) viewports, cap content so it reads as a centred column
+// rather than stretching edge to edge. Grid is roomier; forms are narrower.
+export const MaxContentWidth = 720;
+export const FormMaxWidth = 480;

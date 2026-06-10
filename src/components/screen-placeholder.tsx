@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Spacing } from '@/constants/theme';
+import { FormMaxWidth, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
 type Props = {
@@ -42,6 +42,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: Spacing.three,
     padding: Spacing.four,
+    width: '100%',
+    maxWidth: FormMaxWidth,
+    alignSelf: 'center',
   },
   title: {
     textAlign: 'center',

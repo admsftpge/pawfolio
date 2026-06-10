@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import { CatCard } from '@/components/cat-card';
-import { Radius, Spacing } from '@/constants/theme';
+import { MaxContentWidth, Radius, Spacing } from '@/constants/theme';
 import { CatCard as CatCardModel } from '@/data/cat-cards';
 import { useTheme } from '@/hooks/use-theme';
 
@@ -32,9 +32,13 @@ export function CatGrid({ cats, header, onRefresh }: Props) {
   const [refreshing, setRefreshing] = useState(false);
   const [mode, setMode] = useState<ViewMode>('grid');
 
+  // Cap the layout width so a wide browser renders a centred column, not a stretched grid.
+  const contentWidth = Math.min(width, MaxContentWidth);
   const columns =
-    mode === 'list' ? 1 : Math.min(MAX_COLUMNS, Math.max(1, Math.floor(width / MIN_CARD_WIDTH)));
-  const cardWidth = (width - 2 * GAP - (columns - 1) * GAP) / columns;
+    mode === 'list'
+      ? 1
+      : Math.min(MAX_COLUMNS, Math.max(1, Math.floor(contentWidth / MIN_CARD_WIDTH)));
+  const cardWidth = (contentWidth - 2 * GAP - (columns - 1) * GAP) / columns;
 
   const refresh = async () => {
     setRefreshing(true);
@@ -88,6 +92,9 @@ const styles = StyleSheet.create({
   list: {
     padding: GAP,
     gap: GAP,
+    width: '100%',
+    maxWidth: MaxContentWidth,
+    alignSelf: 'center',
   },
   row: {
     gap: GAP,
