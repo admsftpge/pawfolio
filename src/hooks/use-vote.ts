@@ -16,8 +16,9 @@ export function useVote() {
 
     mutationFn: ({ imageId, value }) => addVote(imageId, value),
 
+    // The API keeps one vote per user per image (upsert), so replace rather than append.
     update: (votes, { imageId, value }) => [
-      ...votes,
+      ...votes.filter((vote) => vote.image_id !== imageId),
       { id: OPTIMISTIC_VOTE_ID, image_id: imageId, value },
     ],
   });
