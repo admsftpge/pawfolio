@@ -1,7 +1,8 @@
+import { Ionicons } from '@expo/vector-icons';
 import { Pressable } from 'react-native';
 
-import { ThemedText } from '@/components/themed-text';
 import { Spacing } from '@/constants/theme';
+import { useTheme } from '@/hooks/use-theme';
 import { useToggleFavourite } from '@/hooks/use-toggle-favourite';
 
 type Props = {
@@ -10,6 +11,7 @@ type Props = {
 };
 
 export function FavouriteButton({ imageId, favouriteId }: Props) {
+  const theme = useTheme();
   const toggle = useToggleFavourite();
   const favourited = favouriteId !== null;
 
@@ -21,9 +23,11 @@ export function FavouriteButton({ imageId, favouriteId }: Props) {
       disabled={toggle.isPending}
       hitSlop={Spacing.two}
       onPress={() => toggle.mutate({ imageId, favouriteId })}>
-      <ThemedText type="subtitle" themeColor={favourited ? 'danger' : 'textSecondary'}>
-        {favourited ? '♥' : '♡'}
-      </ThemedText>
+      <Ionicons
+        name={favourited ? 'heart' : 'heart-outline'}
+        size={26}
+        color={favourited ? theme.danger : theme.textSecondary}
+      />
     </Pressable>
   );
 }

@@ -1,7 +1,9 @@
+import { Ionicons } from '@expo/vector-icons';
 import { Pressable, StyleSheet, View } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { Spacing } from '@/constants/theme';
+import { useTheme } from '@/hooks/use-theme';
 import { useVote } from '@/hooks/use-vote';
 
 type Props = {
@@ -10,6 +12,7 @@ type Props = {
 };
 
 export function VoteControls({ imageId, score }: Props) {
+  const theme = useTheme();
   const vote = useVote();
 
   return (
@@ -20,9 +23,7 @@ export function VoteControls({ imageId, score }: Props) {
         disabled={vote.isPending}
         hitSlop={Spacing.two}
         onPress={() => vote.mutate({ imageId, value: 1 })}>
-        <ThemedText type="default" themeColor="textSecondary">
-          ▲
-        </ThemedText>
+        <Ionicons name="caret-up" size={22} color={theme.textSecondary} />
       </Pressable>
 
       <ThemedText type="smallBold" accessibilityLabel={`Score ${score}`}>
@@ -35,9 +36,7 @@ export function VoteControls({ imageId, score }: Props) {
         disabled={vote.isPending}
         hitSlop={Spacing.two}
         onPress={() => vote.mutate({ imageId, value: -1 })}>
-        <ThemedText type="default" themeColor="textSecondary">
-          ▼
-        </ThemedText>
+        <Ionicons name="caret-down" size={22} color={theme.textSecondary} />
       </Pressable>
     </View>
   );
