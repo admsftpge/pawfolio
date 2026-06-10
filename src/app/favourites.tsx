@@ -26,7 +26,11 @@ export default function FavouritesScreen() {
         title="Something went wrong"
         subtitle="Couldn't fetch your favourites. Check your connection and try again."
         action={
-          <ThemedText type="linkPrimary" onPress={() => refetch()}>
+          <ThemedText
+            type="smallBold"
+            themeColor="accent"
+            accessibilityRole="button"
+            onPress={() => refetch()}>
             Try again
           </ThemedText>
         }

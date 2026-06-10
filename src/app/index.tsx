@@ -26,7 +26,11 @@ export default function HomeScreen() {
         title="Something went wrong"
         subtitle="Couldn't fetch your cats. Check your connection and try again."
         action={
-          <ThemedText type="linkPrimary" onPress={() => refetch()}>
+          <ThemedText
+            type="smallBold"
+            themeColor="accent"
+            accessibilityRole="button"
+            onPress={() => refetch()}>
             Try again
           </ThemedText>
         }
@@ -42,7 +46,9 @@ export default function HomeScreen() {
         subtitle="Upload your first cat and it will show up here."
         action={
           <Link href="/upload">
-            <ThemedText type="linkPrimary">Upload a cat</ThemedText>
+            <ThemedText type="smallBold" themeColor="accent">
+              Upload a cat
+            </ThemedText>
           </Link>
         }
       />
