@@ -30,33 +30,28 @@ export function VoteControls({ imageId, score }: Props) {
     }
   }, [score, pop]);
 
-  const scoreColor = score > 0 ? 'success' : score < 0 ? 'danger' : 'text';
-
   return (
-    <View style={[styles.pill, { backgroundColor: theme.backgroundElement }]}>
+    <View
+      style={[styles.pill, { backgroundColor: theme.surface, borderColor: theme.border }]}>
       <Pressable
         accessibilityRole="button"
         accessibilityLabel="Vote this cat up"
         disabled={vote.isPending}
         hitSlop={Spacing.two}
         onPress={() => vote.mutate({ imageId, value: 1 })}
-        style={({ pressed }) => [styles.segment, pressed && styles.pressed]}>
+        style={({ pressed }) => [
+          styles.chip,
+          { backgroundColor: theme.successSoft },
+          pressed && styles.pressed,
+        ]}>
         <Ionicons name="caret-up" size={18} color={theme.success} />
       </Pressable>
 
-      <View style={[styles.divider, { backgroundColor: theme.border }]} />
-
       <Animated.View style={popStyle}>
-        <ThemedText
-          type="smallBold"
-          themeColor={scoreColor}
-          style={styles.score}
-          accessibilityLabel={`Score ${score}`}>
+        <ThemedText style={styles.score} accessibilityLabel={`Score ${score}`}>
           {score}
         </ThemedText>
       </Animated.View>
-
-      <View style={[styles.divider, { backgroundColor: theme.border }]} />
 
       <Pressable
         accessibilityRole="button"
@@ -64,7 +59,11 @@ export function VoteControls({ imageId, score }: Props) {
         disabled={vote.isPending}
         hitSlop={Spacing.two}
         onPress={() => vote.mutate({ imageId, value: -1 })}
-        style={({ pressed }) => [styles.segment, pressed && styles.pressed]}>
+        style={({ pressed }) => [
+          styles.chip,
+          { backgroundColor: theme.dangerSoft },
+          pressed && styles.pressed,
+        ]}>
         <Ionicons name="caret-down" size={18} color={theme.danger} />
       </Pressable>
     </View>
@@ -76,21 +75,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: Radius.pill,
-    overflow: 'hidden',
+    borderWidth: StyleSheet.hairlineWidth,
+    padding: Spacing.one,
   },
-  segment: {
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.one,
+  chip: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 32,
+    height: 32,
+    borderRadius: Radius.pill,
   },
   pressed: {
     opacity: 0.5,
   },
-  divider: {
-    width: StyleSheet.hairlineWidth,
-    alignSelf: 'stretch',
-  },
   score: {
-    minWidth: 28,
+    minWidth: 36,
     textAlign: 'center',
+    fontSize: 16,
+    fontWeight: 700,
   },
 });
