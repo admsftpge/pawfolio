@@ -14,15 +14,13 @@ import { Radius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { useUploadCat } from '@/hooks/use-upload-cat';
 
-const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png'];
-const MAX_FILE_BYTES = 10 * 1024 * 1024; // 10 MB
+// Generous ceiling — we downscale + transcode to JPEG before upload, so this
+// only guards against reading a pathologically large file into memory.
+const MAX_FILE_BYTES = 25 * 1024 * 1024; // 25 MB
 
 function validate(asset: ImagePicker.ImagePickerAsset): string | null {
-  if (asset.mimeType && !ALLOWED_MIME_TYPES.includes(asset.mimeType)) {
-    return 'That file type won’t work — please choose a JPEG or PNG.';
-  }
   if (asset.fileSize && asset.fileSize > MAX_FILE_BYTES) {
-    return 'That photo is over 10 MB — please choose a smaller one.';
+    return 'That photo is enormous — please choose one under 25 MB.';
   }
   return null;
 }
@@ -49,11 +47,7 @@ export default function UploadScreen() {
     if (!asset || validationError) return;
 
     upload.mutate(
-      {
-        uri: asset.uri,
-        name: asset.fileName ?? 'cat.jpg',
-        mimeType: asset.mimeType ?? 'image/jpeg',
-      },
+      { uri: asset.uri, width: asset.width, height: asset.height },
       {
         onSuccess: () => {
           setAsset(null);
@@ -95,7 +89,7 @@ export default function UploadScreen() {
                   Show us your finest feline
                 </ThemedText>
                 <ThemedText type="small" themeColor="textSecondary">
-                  JPEG or PNG, up to 10 MB
+                  Any photo — we’ll optimise it for you
                 </ThemedText>
               </View>
             )}

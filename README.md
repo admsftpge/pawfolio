@@ -37,7 +37,7 @@ npm run lint      # eslint
 
 | Requirement | Where |
 |---|---|
-| 1. Upload a cat image at `/upload` | `src/app/upload.tsx` → `POST /images/upload` (multipart), client-side validation, API errors surfaced verbatim, success returns to `/` |
+| 1. Upload a cat image at `/upload` | `src/app/upload.tsx` → normalise to JPEG → `POST /images/upload` (multipart), API errors surfaced verbatim, success returns to `/` |
 | 2. List your uploads at `/` | `src/app/index.tsx` → responsive grid, max 4 columns, scales to 340px, images never stretched (`contentFit="cover"`) |
 | 3. Favourite / unfavourite | Heart on each card → `POST /favourites` / `DELETE /favourites/:id`, optimistic toggle |
 | 4. Vote up / down | Pill on each card → `POST /votes` with value ±1 |
@@ -64,7 +64,7 @@ screens (src/app)            – render state, fire callbacks; no business logic
 ## Decisions & trade-offs
 
 - **Vote semantics, discovered empirically.** TheCatApi *upserts* votes — one vote per user per image, latest wins (verified against the live API; two consecutive up-votes leave one row). The optimistic update mirrors that by replacing rather than appending. Consequence: in a single-user app each cat's score ranges −1/0/+1; the formula is identical to a multi-user deployment, just with a population of one.
-- **Validation at both ends.** Files are checked client-side at pick time (JPEG/PNG, ≤10 MB) so doomed uploads never hit the network; server-side errors (including TheCatApi's cat-classifier rejections) are shown verbatim.
+- **Normalise, don't gatekeep.** TheCatApi only accepts JPEG/PNG and rejects HEIC — which is *every* iPhone photo (verified against the live API). Rather than reject the user's photo, every pick is transcoded to a right-sized JPEG via `expo-image-manipulator` before upload (downscaled to 2048px), so HEIC and oversized images just work. A light client-side size guard remains, and server-side errors (including TheCatApi's cat-classifier rejections) are shown verbatim.
 - **Zod at the boundary.** Responses are parsed against schemas that validate only the fields the app consumes — strict about what we rely on, tolerant of additions.
 - **Votes are paginated exhaustively.** Vote rows are unbounded (every tap adds one), so the score would silently cap at the API's 100-row page limit without the page loop in `listAllVotes`.
 - **Design tokens.** Components reference color roles (`accent`, `surface`, `border`…), never hex values — the amber palette (and its dark-mode variant) lives in one block in `src/constants/theme.ts`, and repainting the app is an edit to that block only.
@@ -74,6 +74,7 @@ screens (src/app)            – render state, fire callbacks; no business logic
 
 - **No vote retraction** — once you've voted, a cat can't return to score 0 (the API supports `DELETE /votes/:id`; a Reddit-style "tap your active vote to retract" is the natural extension, needing the join to also expose your current vote).
 - **Delete is long-press only** — no visible affordance on the card (kept clutter-free); discoverability relies on this README and the accessibility hint.
+- **Uploads always re-encode** — every image is transcoded to JPEG, even one that's already a small JPEG (kept uniform for simplicity). A check to skip re-encoding when the pick is already a suitably-sized JPEG would save a little work.
 - **Failed optimistic updates roll back silently** — a toast explaining *why* the heart snapped back would be kinder.
 - **Image list caps at 100** — pagination matters less for a personal collection than for votes; noted as a TODO in `images.ts`.
 - **Default Expo icon/splash** — branding stops at the runtime UI.

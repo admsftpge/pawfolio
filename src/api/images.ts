@@ -18,12 +18,6 @@ const uploadResponseSchema = z.object({
   url: z.url(),
 });
 
-export type UploadFile = {
-  uri: string;
-  name: string;
-  mimeType: string;
-};
-
 /** Newest first. TODO: paginate if a collection ever exceeds 100 cats. */
 export async function listMyImages(): Promise<CatImage[]> {
   const response = await catApi.get('/images', {
@@ -32,21 +26,18 @@ export async function listMyImages(): Promise<CatImage[]> {
   return z.array(catImageSchema).parse(response.data);
 }
 
-export async function uploadImage(file: UploadFile) {
+// Callers normalise to JPEG first (see normalize-image.ts), so this always sends image/jpeg.
+export async function uploadImage(uri: string) {
   const form = new FormData();
 
   if (Platform.OS === 'web') {
     // Browsers need the actual bytes as a Blob.
-    const blob = await (await fetch(file.uri)).blob();
-    form.append('file', blob, file.name);
+    const blob = await (await fetch(uri)).blob();
+    form.append('file', blob, 'cat.jpg');
   } else {
     // React Native's FormData takes a {uri, name, type} descriptor instead of
     // a web Blob; the cast bridges the web-centric TS types.
-    form.append('file', {
-      uri: file.uri,
-      name: file.name,
-      type: file.mimeType,
-    } as unknown as Blob);
+    form.append('file', { uri, name: 'cat.jpg', type: 'image/jpeg' } as unknown as Blob);
   }
 
   const response = await catApi.post('/images/upload', form);
