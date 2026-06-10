@@ -8,7 +8,12 @@ Runs on iOS, Android, and web from one codebase.
 
 ## Screenshots
 
-<!-- screenshots go here -->
+<p>
+  <img src="screenshots/home-grid.jpg" width="200" alt="Home grid with hearts and vote scores" />
+  <img src="screenshots/home-list.jpg" width="200" alt="List view" />
+  <img src="screenshots/upload.jpg" width="200" alt="Upload with preview" />
+  <img src="screenshots/favourites.jpg" width="200" alt="Favourites tab" />
+</p>
 
 ## Quick start
 
