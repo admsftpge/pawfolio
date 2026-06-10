@@ -22,6 +22,7 @@ export default function HomeScreen() {
   if (error || !cats) {
     return (
       <ScreenPlaceholder
+        icon="cloud-offline-outline"
         title="Something went wrong"
         subtitle="Couldn't fetch your cats. Check your connection and try again."
         action={
@@ -36,6 +37,7 @@ export default function HomeScreen() {
   if (cats.length === 0) {
     return (
       <ScreenPlaceholder
+        icon="paw-outline"
         title="No cats yet"
         subtitle="Upload your first cat and it will show up here."
         action={

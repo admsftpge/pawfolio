@@ -22,6 +22,7 @@ export default function FavouritesScreen() {
   if (error || !favourites) {
     return (
       <ScreenPlaceholder
+        icon="cloud-offline-outline"
         title="Something went wrong"
         subtitle="Couldn't fetch your favourites. Check your connection and try again."
         action={
@@ -36,6 +37,7 @@ export default function FavouritesScreen() {
   if (favourites.length === 0) {
     return (
       <ScreenPlaceholder
+        icon="heart-outline"
         title="No favourites yet"
         subtitle="Tap the heart on one of your cats and it will gather here."
       />
