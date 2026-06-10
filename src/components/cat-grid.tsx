@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import { CatCard } from '@/components/cat-card';
-import { MaxContentWidth, Radius, Spacing } from '@/constants/theme';
+import { FormMaxWidth, MaxContentWidth, Radius, Spacing } from '@/constants/theme';
 import { CatCard as CatCardModel } from '@/data/cat-cards';
 import { useTheme } from '@/hooks/use-theme';
 
@@ -33,7 +33,9 @@ export function CatGrid({ cats, header, onRefresh }: Props) {
   const [mode, setMode] = useState<ViewMode>('grid');
 
   // Cap the layout width so a wide browser renders a centred column, not a stretched grid.
-  const contentWidth = Math.min(width, MaxContentWidth);
+  // List view is a single-column feed, so it sits in a narrower column than the grid.
+  const layoutMaxWidth = mode === 'list' ? FormMaxWidth : MaxContentWidth;
+  const contentWidth = Math.min(width, layoutMaxWidth);
   const columns =
     mode === 'list'
       ? 1
@@ -73,7 +75,7 @@ export function CatGrid({ cats, header, onRefresh }: Props) {
       numColumns={columns}
       renderItem={({ item }) => <CatCard cat={item} width={cardWidth} />}
       columnWrapperStyle={columns > 1 ? styles.row : undefined}
-      contentContainerStyle={styles.list}
+      contentContainerStyle={[styles.list, { maxWidth: layoutMaxWidth }]}
       ListHeaderComponent={
         <View style={styles.headerRow}>
           {header}
@@ -93,7 +95,6 @@ const styles = StyleSheet.create({
     padding: GAP,
     gap: GAP,
     width: '100%',
-    maxWidth: MaxContentWidth,
     alignSelf: 'center',
   },
   row: {
