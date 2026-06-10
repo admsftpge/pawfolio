@@ -1,13 +1,24 @@
+import { Ionicons } from '@expo/vector-icons';
 import { ReactNode, useState } from 'react';
-import { FlatList, RefreshControl, StyleSheet, useWindowDimensions } from 'react-native';
+import {
+  FlatList,
+  Pressable,
+  RefreshControl,
+  StyleSheet,
+  useWindowDimensions,
+  View,
+} from 'react-native';
 
 import { CatCard } from '@/components/cat-card';
-import { Spacing } from '@/constants/theme';
+import { Radius, Spacing } from '@/constants/theme';
 import { CatCard as CatCardModel } from '@/data/cat-cards';
+import { useTheme } from '@/hooks/use-theme';
 
 const MIN_CARD_WIDTH = 160;
 const MAX_COLUMNS = 4;
 const GAP = Spacing.three;
+
+type ViewMode = 'grid' | 'list';
 
 type Props = {
   cats: CatCardModel[];
@@ -16,10 +27,13 @@ type Props = {
 };
 
 export function CatGrid({ cats, header, onRefresh }: Props) {
+  const theme = useTheme();
   const { width } = useWindowDimensions();
   const [refreshing, setRefreshing] = useState(false);
+  const [mode, setMode] = useState<ViewMode>('grid');
 
-  const columns = Math.min(MAX_COLUMNS, Math.max(1, Math.floor(width / MIN_CARD_WIDTH)));
+  const columns =
+    mode === 'list' ? 1 : Math.min(MAX_COLUMNS, Math.max(1, Math.floor(width / MIN_CARD_WIDTH)));
   const cardWidth = (width - 2 * GAP - (columns - 1) * GAP) / columns;
 
   const refresh = async () => {
@@ -31,6 +45,21 @@ export function CatGrid({ cats, header, onRefresh }: Props) {
     }
   };
 
+  const modeButton = (target: ViewMode, icon: 'grid-outline' | 'list-outline', label: string) => (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      accessibilityState={{ selected: mode === target }}
+      onPress={() => setMode(target)}
+      style={[styles.modeButton, mode === target && { backgroundColor: theme.surface }]}>
+      <Ionicons
+        name={icon}
+        size={16}
+        color={mode === target ? theme.accent : theme.textSecondary}
+      />
+    </Pressable>
+  );
+
   return (
     <FlatList
       // numColumns can't change on a mounted FlatList; new key remounts on breakpoint change.
@@ -41,7 +70,15 @@ export function CatGrid({ cats, header, onRefresh }: Props) {
       renderItem={({ item }) => <CatCard cat={item} width={cardWidth} />}
       columnWrapperStyle={columns > 1 ? styles.row : undefined}
       contentContainerStyle={styles.list}
-      ListHeaderComponent={<>{header}</>}
+      ListHeaderComponent={
+        <View style={styles.headerRow}>
+          {header}
+          <View style={[styles.modeToggle, { backgroundColor: theme.backgroundElement }]}>
+            {modeButton('grid', 'grid-outline', 'Grid view')}
+            {modeButton('list', 'list-outline', 'List view')}
+          </View>
+        </View>
+      }
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} />}
     />
   );
@@ -54,5 +91,20 @@ const styles = StyleSheet.create({
   },
   row: {
     gap: GAP,
+  },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+  },
+  modeToggle: {
+    flexDirection: 'row',
+    borderRadius: Radius.pill,
+    padding: Spacing.half,
+  },
+  modeButton: {
+    paddingHorizontal: Spacing.two + Spacing.half,
+    paddingVertical: Spacing.one,
+    borderRadius: Radius.pill,
   },
 });
