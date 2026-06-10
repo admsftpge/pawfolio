@@ -1,9 +1,9 @@
-import axios from 'axios';
+import { create } from 'axios';
 
 import { config } from '@/api/config';
 import { getSubId } from '@/api/sub-id';
 
-export const catApi = axios.create({
+export const catApi = create({
   baseURL: config.catApiBaseUrl,
   headers: { 'x-api-key': config.catApiKey },
 });
