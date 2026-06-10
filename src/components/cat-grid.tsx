@@ -28,19 +28,21 @@ type Props = {
 
 export function CatGrid({ cats, header, onRefresh }: Props) {
   const theme = useTheme();
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
   const [refreshing, setRefreshing] = useState(false);
   const [mode, setMode] = useState<ViewMode>('grid');
 
   // Cap the layout width so a wide browser renders a centred column, not a stretched grid.
-  // List view is a single-column feed, so it sits in a narrower column than the grid.
+  // List view is a single-column feed, so it sits in a narrower column than the grid —
+  // and its square card is also capped by height so it fits landscape's short viewport.
   const layoutMaxWidth = mode === 'list' ? FormMaxWidth : MaxContentWidth;
   const contentWidth = Math.min(width, layoutMaxWidth);
   const columns =
     mode === 'list'
       ? 1
       : Math.min(MAX_COLUMNS, Math.max(1, Math.floor(contentWidth / MIN_CARD_WIDTH)));
-  const cardWidth = (contentWidth - 2 * GAP - (columns - 1) * GAP) / columns;
+  const widthPerCard = (contentWidth - 2 * GAP - (columns - 1) * GAP) / columns;
+  const cardWidth = mode === 'list' ? Math.min(widthPerCard, height * 0.55) : widthPerCard;
 
   const refresh = async () => {
     setRefreshing(true);

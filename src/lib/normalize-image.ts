@@ -4,8 +4,8 @@ const MAX_DIMENSION = 2048;
 
 /**
  * Transcode any picked image to a right-sized JPEG before upload. TheCatApi
- * rejects HEIC (every iPhone photo) and other formats, so I normalise rather
- * than gatekeep — and downscale large photos to keep uploads quick.
+ * rejects HEIC (every iPhone photo) and other formats, so normalise and
+ * downscale large photos to keep uploads quick.
  */
 export async function normalizeImageToJpeg(
   uri: string,
@@ -23,7 +23,6 @@ export async function normalizeImageToJpeg(
     const result = await rendered.saveAsync({ format: SaveFormat.JPEG, compress: 0.8 });
     return result.uri;
   } catch {
-    // The manipulator's own errors are raw native strings — not for users.
     throw new Error('We couldn’t process that photo — please try a different one.');
   }
 }

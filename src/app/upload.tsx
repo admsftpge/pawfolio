@@ -3,7 +3,7 @@ import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { getApiErrorMessage } from '@/api/client';
@@ -27,6 +27,7 @@ function validate(asset: ImagePicker.ImagePickerAsset): string | null {
 
 export default function UploadScreen() {
   const theme = useTheme();
+  const window = useWindowDimensions();
   const router = useRouter();
   const upload = useUploadCat();
   const [asset, setAsset] = useState<ImagePicker.ImagePickerAsset | null>(null);
@@ -66,6 +67,12 @@ export default function UploadScreen() {
   const errorMessage =
     validationError ?? pickError ?? (upload.error ? getApiErrorMessage(upload.error) : null);
 
+  // Square sized by the scarcer dimension, so it fits landscape's short viewport too.
+  const previewSize = Math.min(
+    Math.min(window.width, FormMaxWidth) - 2 * Spacing.four,
+    window.height * 0.55,
+  );
+
   return (
     <ThemedView style={styles.container}>
       <SafeAreaView style={styles.container} edges={['top']}>
@@ -80,7 +87,7 @@ export default function UploadScreen() {
             {asset ? (
               <Image
                 source={{ uri: asset.uri }}
-                style={styles.preview}
+                style={[styles.preview, { width: previewSize, height: previewSize }]}
                 contentFit="cover"
                 accessibilityLabel="Preview of the photo you picked"
               />
@@ -88,14 +95,15 @@ export default function UploadScreen() {
               <View
                 style={[
                   styles.preview,
+                  { width: previewSize, height: previewSize },
                   styles.dropZone,
                   { borderColor: theme.textSecondary, backgroundColor: theme.backgroundElement },
                 ]}>
                 <Ionicons name="camera-outline" size={44} color={theme.textSecondary} />
-                <ThemedText type="smallBold" themeColor="textSecondary">
+                <ThemedText type="smallBold" themeColor="textSecondary" style={styles.dropZoneText}>
                   Show us your finest feline
                 </ThemedText>
-                <ThemedText type="small" themeColor="textSecondary">
+                <ThemedText type="small" themeColor="textSecondary" style={styles.dropZoneText}>
                   Any photo — we’ll optimise it for you
                 </ThemedText>
               </View>
@@ -146,16 +154,20 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   preview: {
-    width: '100%',
-    aspectRatio: 1,
+    alignSelf: 'center',
     borderRadius: Radius.lg,
   },
   dropZone: {
     alignItems: 'center',
     justifyContent: 'center',
     gap: Spacing.two,
+    padding: Spacing.three,
     borderWidth: 2,
     borderStyle: 'dashed',
+  },
+  dropZoneText: {
+    maxWidth: '100%',
+    textAlign: 'center',
   },
   error: {
     textAlign: 'center',

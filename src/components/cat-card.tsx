@@ -52,6 +52,7 @@ export function CatCard({ cat, width }: Props) {
 
 const styles = StyleSheet.create({
   card: {
+    alignSelf: 'center',
     borderRadius: Radius.lg,
     borderWidth: StyleSheet.hairlineWidth,
     shadowColor: '#000000',
