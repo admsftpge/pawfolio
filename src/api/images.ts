@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import { z } from 'zod';
 
 import { catApi } from '@/api/client';
@@ -33,13 +34,20 @@ export async function listMyImages(): Promise<CatImage[]> {
 
 export async function uploadImage(file: UploadFile) {
   const form = new FormData();
-  // React Native's FormData takes a {uri, name, type} descriptor instead of a
-  // web Blob; the cast bridges the web-centric TS types.
-  form.append('file', {
-    uri: file.uri,
-    name: file.name,
-    type: file.mimeType,
-  } as unknown as Blob);
+
+  if (Platform.OS === 'web') {
+    // Browsers need the actual bytes as a Blob.
+    const blob = await (await fetch(file.uri)).blob();
+    form.append('file', blob, file.name);
+  } else {
+    // React Native's FormData takes a {uri, name, type} descriptor instead of
+    // a web Blob; the cast bridges the web-centric TS types.
+    form.append('file', {
+      uri: file.uri,
+      name: file.name,
+      type: file.mimeType,
+    } as unknown as Blob);
+  }
 
   const response = await catApi.post('/images/upload', form);
   return uploadResponseSchema.parse(response.data);

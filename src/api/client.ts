@@ -1,4 +1,4 @@
-import { create } from 'axios';
+import { create, isAxiosError } from 'axios';
 
 import { config } from '@/api/config';
 import { getSubId } from '@/api/sub-id';
@@ -26,3 +26,16 @@ catApi.interceptors.request.use(async (request) => {
 
   return request;
 });
+
+// TheCatApi reports errors as either a plain-string body or {message}.
+export function getApiErrorMessage(error: unknown): string {
+  if (isAxiosError(error)) {
+    const data = error.response?.data;
+    if (typeof data === 'string' && data.length > 0) return data;
+    if (data && typeof data === 'object' && 'message' in data && typeof data.message === 'string') {
+      return data.message;
+    }
+  }
+  if (error instanceof Error && error.message) return error.message;
+  return 'Something went wrong.';
+}
