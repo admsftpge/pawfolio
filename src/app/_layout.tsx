@@ -15,6 +15,7 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider value={scheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Tabs
+          initialRouteName="index"
           screenOptions={{
             headerShown: false,
             tabBarActiveTintColor: colors.accent,
