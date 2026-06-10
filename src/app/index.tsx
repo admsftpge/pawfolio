@@ -1,7 +1,8 @@
-import { Link } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { AppButton } from '@/components/app-button';
 import { CatGrid } from '@/components/cat-grid';
 import { ScreenPlaceholder } from '@/components/screen-placeholder';
 import { ThemedText } from '@/components/themed-text';
@@ -10,6 +11,7 @@ import { Spacing } from '@/constants/theme';
 import { useCats } from '@/hooks/use-cats';
 
 export default function HomeScreen() {
+  const router = useRouter();
   const { cats, isLoading, error, refetch } = useCats();
 
   if (isLoading) {
@@ -45,13 +47,7 @@ export default function HomeScreen() {
         icon="paw-outline"
         title="No cats yet"
         subtitle="Your Pawfolio is waiting for its first star."
-        action={
-          <Link href="/upload">
-            <ThemedText type="smallBold" themeColor="accent">
-              Upload a cat
-            </ThemedText>
-          </Link>
-        }
+        action={<AppButton title="Upload a cat" onPress={() => router.navigate('/upload')} />}
       />
     );
   }
