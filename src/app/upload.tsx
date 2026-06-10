@@ -30,17 +30,23 @@ export default function UploadScreen() {
   const router = useRouter();
   const upload = useUploadCat();
   const [asset, setAsset] = useState<ImagePicker.ImagePickerAsset | null>(null);
+  const [pickError, setPickError] = useState<string | null>(null);
   const validationError = asset ? validate(asset) : null;
 
   const pickImage = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ['images'],
-      quality: 0.8,
-    });
-    if (result.canceled) return;
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ['images'],
+        quality: 0.8,
+      });
+      if (result.canceled) return;
 
-    setAsset(result.assets[0]);
-    upload.reset();
+      setAsset(result.assets[0]);
+      setPickError(null);
+      upload.reset();
+    } catch {
+      setPickError('Couldn’t open your photo library — please try again.');
+    }
   };
 
   const submit = () => {
@@ -57,7 +63,8 @@ export default function UploadScreen() {
     );
   };
 
-  const errorMessage = validationError ?? (upload.error ? getApiErrorMessage(upload.error) : null);
+  const errorMessage =
+    validationError ?? pickError ?? (upload.error ? getApiErrorMessage(upload.error) : null);
 
   return (
     <ThemedView style={styles.container}>
