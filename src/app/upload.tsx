@@ -1,15 +1,17 @@
+import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { getApiErrorMessage } from '@/api/client';
 import { AppButton } from '@/components/app-button';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Spacing } from '@/constants/theme';
+import { Radius, Spacing } from '@/constants/theme';
+import { useTheme } from '@/hooks/use-theme';
 import { useUploadCat } from '@/hooks/use-upload-cat';
 
 const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png'];
@@ -26,6 +28,7 @@ function validate(asset: ImagePicker.ImagePickerAsset): string | null {
 }
 
 export default function UploadScreen() {
+  const theme = useTheme();
   const router = useRouter();
   const upload = useUploadCat();
   const [asset, setAsset] = useState<ImagePicker.ImagePickerAsset | null>(null);
@@ -68,42 +71,64 @@ export default function UploadScreen() {
         <ScrollView contentContainerStyle={styles.content}>
           <ThemedText type="subtitle">Upload a cat</ThemedText>
 
-          {asset ? (
-            <Image
-              source={{ uri: asset.uri }}
-              style={styles.preview}
-              contentFit="cover"
-              accessibilityLabel="Preview of the photo you picked"
-            />
-          ) : (
-            <ThemedView type="backgroundElement" style={[styles.preview, styles.placeholder]}>
-              <ThemedText type="default" themeColor="textSecondary">
-                Your photo will preview here
-              </ThemedText>
-            </ThemedView>
-          )}
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={asset ? 'Choose a different photo' : 'Choose a photo'}
+            disabled={upload.isPending}
+            onPress={pickImage}>
+            {asset ? (
+              <Image
+                source={{ uri: asset.uri }}
+                style={styles.preview}
+                contentFit="cover"
+                accessibilityLabel="Preview of the photo you picked"
+              />
+            ) : (
+              <View
+                style={[
+                  styles.preview,
+                  styles.dropZone,
+                  { borderColor: theme.textSecondary, backgroundColor: theme.backgroundElement },
+                ]}>
+                <Ionicons name="camera-outline" size={44} color={theme.textSecondary} />
+                <ThemedText type="smallBold" themeColor="textSecondary">
+                  Tap to pick your best cat photo
+                </ThemedText>
+                <ThemedText type="small" themeColor="textSecondary">
+                  JPEG or PNG, up to 10 MB
+                </ThemedText>
+              </View>
+            )}
+          </Pressable>
 
           {errorMessage && (
-            <ThemedText type="smallBold" themeColor="danger" accessibilityRole="alert">
+            <ThemedText
+              type="smallBold"
+              themeColor="danger"
+              style={styles.error}
+              accessibilityRole="alert">
               {errorMessage}
             </ThemedText>
           )}
 
-          <View style={styles.actions}>
-            <AppButton
-              title={asset ? 'Choose a different photo' : 'Choose a photo'}
-              onPress={pickImage}
-              disabled={upload.isPending}
-            />
-            {asset && (
+          {asset && (
+            <View style={styles.actions}>
               <AppButton
                 title="Upload"
                 onPress={submit}
                 disabled={Boolean(validationError)}
                 loading={upload.isPending}
               />
-            )}
-          </View>
+              <ThemedText
+                type="smallBold"
+                themeColor="textSecondary"
+                style={styles.changeLink}
+                accessibilityRole="button"
+                onPress={pickImage}>
+                Choose a different photo
+              </ThemedText>
+            </View>
+          )}
         </ScrollView>
       </SafeAreaView>
     </ThemedView>
@@ -119,13 +144,22 @@ const styles = StyleSheet.create({
   preview: {
     width: '100%',
     aspectRatio: 1,
-    borderRadius: Spacing.three,
+    borderRadius: Radius.lg,
   },
-  placeholder: {
+  dropZone: {
     alignItems: 'center',
     justifyContent: 'center',
+    gap: Spacing.two,
+    borderWidth: 2,
+    borderStyle: 'dashed',
+  },
+  error: {
+    textAlign: 'center',
   },
   actions: {
     gap: Spacing.three,
+  },
+  changeLink: {
+    textAlign: 'center',
   },
 });
