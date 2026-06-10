@@ -1,8 +1,7 @@
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { FlatList, RefreshControl, StyleSheet, useWindowDimensions } from 'react-native';
 
 import { CatCard } from '@/components/cat-card';
-import { ThemedText } from '@/components/themed-text';
 import { Spacing } from '@/constants/theme';
 import { CatCard as CatCardModel } from '@/data/cat-cards';
 
@@ -12,11 +11,11 @@ const GAP = Spacing.three;
 
 type Props = {
   cats: CatCardModel[];
-  title: string;
+  header: ReactNode;
   onRefresh: () => Promise<unknown>;
 };
 
-export function CatGrid({ cats, title, onRefresh }: Props) {
+export function CatGrid({ cats, header, onRefresh }: Props) {
   const { width } = useWindowDimensions();
   const [refreshing, setRefreshing] = useState(false);
 
@@ -42,7 +41,7 @@ export function CatGrid({ cats, title, onRefresh }: Props) {
       renderItem={({ item }) => <CatCard cat={item} width={cardWidth} />}
       columnWrapperStyle={columns > 1 ? styles.row : undefined}
       contentContainerStyle={styles.list}
-      ListHeaderComponent={<ThemedText type="subtitle">{title}</ThemedText>}
+      ListHeaderComponent={<>{header}</>}
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} />}
     />
   );

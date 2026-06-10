@@ -1,11 +1,12 @@
 import { Link } from 'expo-router';
-import { ActivityIndicator, StyleSheet } from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { CatGrid } from '@/components/cat-grid';
 import { ScreenPlaceholder } from '@/components/screen-placeholder';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import { Spacing } from '@/constants/theme';
 import { useCats } from '@/hooks/use-cats';
 
 export default function HomeScreen() {
@@ -43,7 +44,7 @@ export default function HomeScreen() {
       <ScreenPlaceholder
         icon="paw-outline"
         title="No cats yet"
-        subtitle="Upload your first cat and it will show up here."
+        subtitle="Your Pawfolio is waiting for its first star."
         action={
           <Link href="/upload">
             <ThemedText type="smallBold" themeColor="accent">
@@ -58,7 +59,20 @@ export default function HomeScreen() {
   return (
     <ThemedView style={styles.container}>
       <SafeAreaView style={styles.container} edges={['top']}>
-        <CatGrid cats={cats} title="Your cats" onRefresh={refetch} />
+        <CatGrid
+          cats={cats}
+          header={
+            <View style={styles.header}>
+              <ThemedText type="subtitle">
+                Paw<ThemedText type="subtitle" themeColor="accent">folio</ThemedText>
+              </ThemedText>
+              <ThemedText type="small" themeColor="textSecondary">
+                Your finest felines, rated and adored.
+              </ThemedText>
+            </View>
+          }
+          onRefresh={refetch}
+        />
       </SafeAreaView>
     </ThemedView>
   );
@@ -70,5 +84,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  header: {
+    gap: Spacing.half,
+    paddingBottom: Spacing.two,
   },
 });

@@ -92,7 +92,7 @@ export default function UploadScreen() {
                 ]}>
                 <Ionicons name="camera-outline" size={44} color={theme.textSecondary} />
                 <ThemedText type="smallBold" themeColor="textSecondary">
-                  Tap to pick your best cat photo
+                  Show us your finest feline
                 </ThemedText>
                 <ThemedText type="small" themeColor="textSecondary">
                   JPEG or PNG, up to 10 MB
@@ -114,7 +114,7 @@ export default function UploadScreen() {
           {asset && (
             <View style={styles.actions}>
               <AppButton
-                title="Upload"
+                title="Add to Pawfolio"
                 onPress={submit}
                 disabled={Boolean(validationError)}
                 loading={upload.isPending}

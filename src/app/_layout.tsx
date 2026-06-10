@@ -34,7 +34,7 @@ export default function RootLayout() {
           <Tabs.Screen
             name="index"
             options={{
-              title: 'Home',
+              title: 'Pawfolio',
               tabBarIcon: ({ color, size }) => <Ionicons name="paw" color={color} size={size} />,
             }}
           />
