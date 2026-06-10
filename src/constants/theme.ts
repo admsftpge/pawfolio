@@ -8,31 +8,31 @@ import '@/global.css';
 import { Platform } from 'react-native';
 
 // Components reference these roles, never raw hex — repainting the app is an
-// edit to this block only. Accent values are provisional until the palette is chosen.
+// edit to this block only.
 export const Colors = {
   light: {
-    text: '#1A1A1E',
-    background: '#FAF9F7',
-    backgroundElement: '#F0F0F3',
-    backgroundSelected: '#E0E1E6',
-    textSecondary: '#60646C',
+    text: '#231F1A',
+    background: '#FAF3E8',
+    backgroundElement: '#F3EADB',
+    backgroundSelected: '#E9DCC6',
+    textSecondary: '#6B6256',
     danger: '#DC2626',
     surface: '#FFFFFF',
-    border: '#E8E6E1',
-    accent: '#26262C',
+    border: '#E9DCC6',
+    accent: '#D97706',
     accentOn: '#FFFFFF',
   },
   dark: {
-    text: '#F4F4F6',
-    background: '#0F0F11',
-    backgroundElement: '#212225',
-    backgroundSelected: '#2E3135',
-    textSecondary: '#B0B4BA',
+    text: '#F5F1EA',
+    background: '#15120E',
+    backgroundElement: '#221E17',
+    backgroundSelected: '#2F2920',
+    textSecondary: '#B5AC9F',
     danger: '#F87171',
-    surface: '#1A1A1E',
-    border: '#2C2C31',
-    accent: '#E8E8EC',
-    accentOn: '#1A1A1E',
+    surface: '#1C1814',
+    border: '#2F2920',
+    accent: '#F59E0B',
+    accentOn: '#231F1A',
   },
 } as const;
 
