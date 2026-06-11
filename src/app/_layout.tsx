@@ -1,26 +1,22 @@
 import { Ionicons } from '@expo/vector-icons';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { DarkTheme, DefaultTheme, Tabs, ThemeProvider } from 'expo-router';
-import { useColorScheme } from 'react-native';
+import { DefaultTheme, Tabs, ThemeProvider } from 'expo-router';
 
 import { Colors } from '@/constants/theme';
 
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
-  const scheme = useColorScheme();
-  const colors = Colors[scheme === 'dark' ? 'dark' : 'light'];
-
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider value={scheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <ThemeProvider value={DefaultTheme}>
         <Tabs
           initialRouteName="index"
           screenOptions={{
             headerShown: false,
-            tabBarActiveTintColor: colors.accent,
-            tabBarInactiveTintColor: colors.textSecondary,
-            tabBarStyle: { backgroundColor: colors.background },
+            tabBarActiveTintColor: Colors.accent,
+            tabBarInactiveTintColor: Colors.textSecondary,
+            tabBarStyle: { backgroundColor: Colors.background },
           }}>
           <Tabs.Screen
             name="upload"

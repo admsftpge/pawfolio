@@ -1,8 +1,3 @@
-/**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
- */
-
 import '@/global.css';
 
 import { Platform } from 'react-native';
@@ -10,39 +5,22 @@ import { Platform } from 'react-native';
 // Components reference these roles, never raw hex — repainting the app is an
 // edit to this block only.
 export const Colors = {
-  light: {
-    text: '#1B1B1F',
-    background: '#EEF1F4',
-    backgroundElement: '#FFFFFF',
-    backgroundSelected: '#E2E7EC',
-    textSecondary: '#6A7280',
-    danger: '#E03131',
-    dangerSoft: '#FCE4E4',
-    success: '#2F9E44',
-    successSoft: '#E3F7E8',
-    surface: '#FFFFFF',
-    border: '#E3E8EE',
-    accent: '#E5483D',
-    accentOn: '#FFFFFF',
-  },
-  dark: {
-    text: '#F5F1EA',
-    background: '#15120E',
-    backgroundElement: '#221E17',
-    backgroundSelected: '#2F2920',
-    textSecondary: '#B5AC9F',
-    danger: '#F87171',
-    dangerSoft: '#3D241F',
-    success: '#4ADE80',
-    successSoft: '#1E3325',
-    surface: '#1C1814',
-    border: '#2F2920',
-    accent: '#F59E0B',
-    accentOn: '#231F1A',
-  },
+  text: '#1B1B1F',
+  background: '#EEF1F4',
+  backgroundElement: '#FFFFFF',
+  backgroundSelected: '#E2E7EC',
+  textSecondary: '#6A7280',
+  danger: '#E03131',
+  dangerSoft: '#FCE4E4',
+  success: '#2F9E44',
+  successSoft: '#E3F7E8',
+  surface: '#FFFFFF',
+  border: '#E3E8EE',
+  accent: '#E5483D',
+  accentOn: '#FFFFFF',
 } as const;
 
-export type ThemeColor = keyof typeof Colors.light & keyof typeof Colors.dark;
+export type ThemeColor = keyof typeof Colors;
 
 export const Radius = {
   sm: 8,
