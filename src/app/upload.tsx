@@ -99,7 +99,7 @@ export default function UploadScreen() {
                 Show us your finest feline
               </ThemedText>
               <ThemedText type="small" themeColor="textSecondary" style={styles.dropZoneText}>
-                Any photo — we’ll optimise it for you
+                Any photo! We'll optimise it for you
               </ThemedText>
             </View>
           )}
