@@ -50,7 +50,7 @@ export default function FavouritesScreen() {
 
   return (
     <ThemedView style={styles.container}>
-      <Banner title="Favourites" subtitle="The hall of fame." />
+      <Banner title="Favourites" />
       <CatGrid cats={favourites} onRefresh={refetch} />
     </ThemedView>
   );

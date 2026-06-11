@@ -75,7 +75,7 @@ export default function UploadScreen() {
 
   return (
     <ThemedView style={styles.container}>
-      <Banner title="Upload a cat" subtitle="Add a cat to your Pawfolio." />
+      <Banner title="Upload a cat" />
       <ScrollView contentContainerStyle={styles.content}>
         <Pressable
           accessibilityRole="button"

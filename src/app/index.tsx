@@ -53,7 +53,7 @@ export default function HomeScreen() {
 
   return (
     <ThemedView style={styles.container}>
-      <Banner title="Pawfolio" subtitle="Your finest felines, rated and adored." />
+      <Banner title="Pawfolio" />
       <CatGrid cats={cats} onRefresh={refetch} />
     </ThemedView>
   );
