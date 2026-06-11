@@ -22,6 +22,7 @@ export default function RootLayout() {
           initialRouteName="index"
           screenOptions={{
             headerShown: false,
+            tabBarLabelPosition: 'below-icon',
             tabBarActiveTintColor: Colors.accent,
             tabBarInactiveTintColor: Colors.textSecondary,
             tabBarStyle: { backgroundColor: Colors.background },
