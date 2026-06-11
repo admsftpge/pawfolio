@@ -26,7 +26,7 @@ export function FavouriteButton({ imageId, favouriteId }: Props) {
       <Ionicons
         name={favourited ? 'heart' : 'heart-outline'}
         size={26}
-        color={favourited ? theme.danger : theme.textSecondary}
+        color={favourited ? theme.accent : theme.textSecondary}
       />
     </Pressable>
   );
