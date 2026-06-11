@@ -15,38 +15,36 @@ export function VoteControls({ imageId, score }: Props) {
   const theme = useTheme();
   const vote = useVote();
 
+  const voteButton = (value: 1 | -1) => {
+    const up = value === 1;
+    return (
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={up ? 'Vote this cat up' : 'Vote this cat down'}
+        hitSlop={Spacing.two}
+        onPress={() => vote.mutate({ imageId, value })}
+        style={({ pressed }) => [
+          styles.chip,
+          { backgroundColor: up ? theme.successSoft : theme.dangerSoft },
+          pressed && styles.pressed,
+        ]}>
+        <Ionicons
+          name={up ? 'caret-up' : 'caret-down'}
+          size={18}
+          color={up ? theme.success : theme.danger}
+        />
+      </Pressable>
+    );
+  };
+
   return (
     <View
       style={[styles.pill, { backgroundColor: theme.surface, borderColor: theme.border }]}>
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel="Vote this cat up"
-        hitSlop={Spacing.two}
-        onPress={() => vote.mutate({ imageId, value: 1 })}
-        style={({ pressed }) => [
-          styles.chip,
-          { backgroundColor: theme.successSoft },
-          pressed && styles.pressed,
-        ]}>
-        <Ionicons name="caret-up" size={18} color={theme.success} />
-      </Pressable>
-
+      {voteButton(1)}
       <ThemedText style={styles.score} accessibilityLabel={`Score ${score}`}>
         {score}
       </ThemedText>
-
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel="Vote this cat down"
-        hitSlop={Spacing.two}
-        onPress={() => vote.mutate({ imageId, value: -1 })}
-        style={({ pressed }) => [
-          styles.chip,
-          { backgroundColor: theme.dangerSoft },
-          pressed && styles.pressed,
-        ]}>
-        <Ionicons name="caret-down" size={18} color={theme.danger} />
-      </Pressable>
+      {voteButton(-1)}
     </View>
   );
 }
