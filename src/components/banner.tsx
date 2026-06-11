@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
@@ -13,11 +13,15 @@ type Props = {
 export function Banner({ title }: Props) {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
+  const { height } = useWindowDimensions();
+  // < 500pt window height ≈ a phone in landscape.
+  const compact = height < 500;
 
   return (
     <View
       style={[
         styles.banner,
+        compact && styles.bannerCompact,
         { backgroundColor: theme.accent, paddingTop: insets.top + Spacing.two },
       ]}>
       <StatusBar style="light" />
@@ -31,7 +35,7 @@ export function Banner({ title }: Props) {
           ))}
         </View>
       </View>
-      <ThemedText type="subtitle" style={styles.title}>
+      <ThemedText type="subtitle" style={[styles.title, compact && styles.titleCompact]}>
         {title}
       </ThemedText>
     </View>
@@ -46,12 +50,18 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: Radius.lg,
     borderWidth: 2,
     borderColor: Motif.outline,
+    gap: Spacing.two,
+  },
+  bannerCompact: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.three,
+    paddingBottom: Spacing.two,
   },
   instruments: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: Spacing.two,
-    marginBottom: Spacing.two,
   },
   lens: {
     width: 32,
@@ -89,5 +99,9 @@ const styles = StyleSheet.create({
     textShadowColor: Motif.titleOutline,
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 1,
+  },
+  titleCompact: {
+    fontSize: 22,
+    lineHeight: 28,
   },
 });

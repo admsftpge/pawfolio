@@ -37,6 +37,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: Spacing.three,
     padding: Spacing.four,
+    // Clears the raised Pawfolio tab button, which overhangs the tab bar.
+    paddingBottom: Spacing.six,
     width: '100%',
     maxWidth: FormMaxWidth,
     alignSelf: 'center',
