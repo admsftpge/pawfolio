@@ -2,11 +2,6 @@ import { ImageManipulator, SaveFormat } from 'expo-image-manipulator';
 
 const MAX_DIMENSION = 2048;
 
-/**
- * Transcode any picked image to a right-sized JPEG before upload. TheCatApi
- * rejects HEIC (every iPhone photo) and other formats, so normalise and
- * downscale large photos to keep uploads quick.
- */
 export async function normalizeImageToJpeg(
   uri: string,
   width: number,

@@ -14,9 +14,7 @@ import { FormMaxWidth, Radius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { useUploadCat } from '@/hooks/use-upload-cat';
 
-// Generous ceiling — we downscale + transcode to JPEG before upload, so this
-// only guards against reading a pathologically large file into memory.
-const MAX_FILE_BYTES = 25 * 1024 * 1024; // 25 MB
+const MAX_FILE_BYTES = 25 * 1024 * 1024;
 
 function validate(asset: ImagePicker.ImagePickerAsset): string | null {
   if (asset.fileSize && asset.fileSize > MAX_FILE_BYTES) {
@@ -67,7 +65,6 @@ export default function UploadScreen() {
   const errorMessage =
     validationError ?? pickError ?? (upload.error ? getApiErrorMessage(upload.error) : null);
 
-  // Square sized by the scarcer dimension, so it fits landscape's short viewport too.
   const previewSize = Math.min(
     Math.min(window.width, FormMaxWidth) - 2 * Spacing.four,
     window.height * 0.55,

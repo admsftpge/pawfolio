@@ -3,15 +3,9 @@ import { QueryKey, useMutation, useQueryClient } from '@tanstack/react-query';
 type Options<TInput, TItem> = {
   queryKey: QueryKey;
   mutationFn: (input: TInput) => Promise<void>;
-  /** Pure flip of the cached list — how the optimistic guess should look. */
   update: (current: TItem[], input: TInput) => TItem[];
 };
 
-/**
- * The optimistic ceremony shared by list mutations: cancel in-flight refetches,
- * snapshot, apply the optimistic update, roll back on error, reconcile with
- * the server on settle.
- */
 export function useOptimisticListMutation<TInput, TItem>({
   queryKey,
   mutationFn,

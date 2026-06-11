@@ -5,7 +5,6 @@ import { getSubId } from '@/api/sub-id';
 
 declare module 'axios' {
   interface AxiosRequestConfig {
-    // Opt a request out of sub_id scoping (votes are anonymous, see votes.ts).
     scopeToUser?: boolean;
   }
 }
@@ -15,8 +14,6 @@ export const catApi = create({
   headers: { 'x-api-key': config.catApiKey },
 });
 
-// Scope ownership requests (images, favourites) to this device's sub_id: reads
-// are filtered by it, writes are tagged with it. See sub-id.ts for the rationale.
 catApi.interceptors.request.use(async (request) => {
   if (request.scopeToUser === false) return request;
 

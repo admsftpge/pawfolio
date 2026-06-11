@@ -12,7 +12,6 @@ export const queryKeys = {
   votes: ['votes'],
 } as const;
 
-/** The three CatApi lists joined into ready-to-render cards. */
 export function useCats() {
   const images = useQuery({ queryKey: queryKeys.images, queryFn: listMyImages });
   const favourites = useQuery({ queryKey: queryKeys.favourites, queryFn: listFavourites });

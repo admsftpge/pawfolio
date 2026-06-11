@@ -11,7 +11,6 @@ type Props = {
   score: number;
 };
 
-/** Segmented pill: vote up | score | vote down. */
 export function VoteControls({ imageId, score }: Props) {
   const theme = useTheme();
   const vote = useVote();

@@ -3,14 +3,10 @@ import { CatImage } from '@/api/images';
 import { Vote } from '@/api/votes';
 
 export type CatCard = CatImage & {
-  /** null = not favourited; otherwise the handle needed to unfavourite. */
   favouriteId: number | null;
-  /** Sum of vote values: upvotes minus downvotes. */
   score: number;
 };
 
-// The API has no "my cats with favourite status and score" endpoint, so
-// join its three flat lists by image_id client-side.
 export function buildCatCards(
   images: CatImage[],
   favourites: Favourite[],

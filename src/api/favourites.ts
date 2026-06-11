@@ -17,7 +17,6 @@ export async function listFavourites(): Promise<Favourite[]> {
   return z.array(favouriteSchema).parse(response.data);
 }
 
-/** Returns the new favourite's id — needed later to unfavourite. */
 export async function addFavourite(imageId: string): Promise<number> {
   const response = await catApi.post('/favourites', { image_id: imageId });
   return z.object({ id: z.number() }).parse(response.data).id;

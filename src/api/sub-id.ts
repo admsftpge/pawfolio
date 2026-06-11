@@ -8,7 +8,6 @@ const STORAGE_KEY = 'catapp.sub_id';
 
 let cached: string | undefined;
 
-/** Returns this device's sub_id, generating and persisting one on first run. */
 export async function getSubId(): Promise<string> {
   if (cached) return cached;
 

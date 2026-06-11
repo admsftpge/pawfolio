@@ -41,13 +41,9 @@ export const Radius = {
 
 export const Fonts = Platform.select({
   ios: {
-    /** iOS `UIFontDescriptorSystemDesignDefault` */
     sans: 'system-ui',
-    /** iOS `UIFontDescriptorSystemDesignSerif` */
     serif: 'ui-serif',
-    /** iOS `UIFontDescriptorSystemDesignRounded` */
     rounded: 'ui-rounded',
-    /** iOS `UIFontDescriptorSystemDesignMonospaced` */
     mono: 'ui-monospace',
   },
   default: {
@@ -76,7 +72,5 @@ export const Spacing = {
 
 export const BottomTabInset = Platform.select({ ios: 50, android: 80 }) ?? 0;
 
-// On wide (web/tablet) viewports, cap content so it reads as a centred column
-// rather than stretching edge to edge. Grid is roomier; forms are narrower.
 export const MaxContentWidth = 720;
 export const FormMaxWidth = 480;

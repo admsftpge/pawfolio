@@ -12,9 +12,6 @@ const voteSchema = z.object({
 
 export type Vote = z.infer<typeof voteSchema>;
 
-// Votes are anonymous accumulating reactions, not per-user — the score is the
-// aggregate of every vote on an image, so we read them all (unscoped) and page
-// through, since vote rows are unbounded.
 export async function listAllVotes(): Promise<Vote[]> {
   const votes: Vote[] = [];
 

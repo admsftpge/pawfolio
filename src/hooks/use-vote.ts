@@ -16,7 +16,6 @@ export function useVote() {
 
     mutationFn: ({ imageId, value }) => addVote(imageId, value),
 
-    // Each tap is its own vote, so append — the score accumulates.
     update: (votes, { imageId, value }) => [
       ...votes,
       { id: OPTIMISTIC_VOTE_ID, image_id: imageId, value },
