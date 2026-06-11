@@ -74,7 +74,7 @@ export function CatGrid({ cats, onRefresh }: Props) {
       data={cats}
       keyExtractor={(cat) => cat.id}
       numColumns={columns}
-      renderItem={({ item }) => <CatCard cat={item} width={cardWidth} />}
+      renderItem={({ item, index }) => <CatCard cat={item} index={index} width={cardWidth} />}
       columnWrapperStyle={columns > 1 ? styles.row : undefined}
       contentContainerStyle={[styles.list, { maxWidth: layoutMaxWidth }]}
       ListHeaderComponent={

@@ -24,6 +24,8 @@ export const Motif = {
   lens: '#3FA2F6',
   lensHighlight: 'rgba(255, 255, 255, 0.55)',
   leds: ['#FF5A5A', '#FFD23F', '#43D17A'],
+  body: '#B6BDC6',
+  outline: '#1B1B1F',
 } as const;
 
 export const Radius = {
