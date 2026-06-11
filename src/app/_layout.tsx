@@ -1,3 +1,4 @@
+import { LuckiestGuy_400Regular, useFonts } from '@expo-google-fonts/luckiest-guy';
 import { Ionicons } from '@expo/vector-icons';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { DefaultTheme, Tabs, ThemeProvider } from 'expo-router';
@@ -8,6 +9,12 @@ import { Colors } from '@/constants/theme';
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
+  const [fontsLoaded] = useFonts({ LuckiestGuy_400Regular });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider value={DefaultTheme}>

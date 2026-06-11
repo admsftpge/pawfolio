@@ -62,6 +62,15 @@ export function CatCard({ cat, index, width }: Props) {
       <View style={styles.footer}>
         <VoteControls imageId={cat.id} score={cat.score} />
       </View>
+
+      <View style={styles.deviceBottom}>
+        <View style={styles.bottomLed} />
+        <View style={styles.hamburger}>
+          <View style={styles.hamburgerLine} />
+          <View style={styles.hamburgerLine} />
+          <View style={styles.hamburgerLine} />
+        </View>
+      </View>
     </Pressable>
   );
 }
@@ -106,6 +115,8 @@ const styles = StyleSheet.create({
   },
   screen: {
     borderRadius: Radius.md,
+    borderWidth: 2,
+    borderColor: Motif.outline,
     padding: Spacing.one,
   },
   image: {
@@ -128,5 +139,27 @@ const styles = StyleSheet.create({
   footer: {
     alignItems: 'center',
     paddingTop: Spacing.two,
+  },
+  deviceBottom: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingTop: Spacing.two,
+    paddingHorizontal: Spacing.one,
+  },
+  bottomLed: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: Motif.leds[0],
+  },
+  hamburger: {
+    gap: 2,
+  },
+  hamburgerLine: {
+    width: 16,
+    height: 2,
+    borderRadius: 1,
+    backgroundColor: Motif.outline,
   },
 });

@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
-import { Motif, Radius, Spacing } from '@/constants/theme';
+import { DisplayFont, Motif, Radius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
 type Props = {
@@ -31,7 +31,7 @@ export function Banner({ title }: Props) {
           ))}
         </View>
       </View>
-      <ThemedText type="subtitle" themeColor="accentOn" style={styles.title}>
+      <ThemedText type="subtitle" style={styles.title}>
         {title}
       </ThemedText>
     </View>
@@ -44,6 +44,8 @@ const styles = StyleSheet.create({
     paddingBottom: Spacing.three,
     borderBottomLeftRadius: Radius.lg,
     borderBottomRightRadius: Radius.lg,
+    borderWidth: 2,
+    borderColor: Motif.outline,
   },
   instruments: {
     flexDirection: 'row',
@@ -79,7 +81,13 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   title: {
-    fontSize: 26,
-    lineHeight: 30,
+    fontFamily: DisplayFont,
+    fontWeight: 'normal',
+    fontSize: 28,
+    lineHeight: 36,
+    color: Motif.title,
+    textShadowColor: Motif.titleOutline,
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 1,
   },
 });

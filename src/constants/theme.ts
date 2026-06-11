@@ -26,7 +26,11 @@ export const Motif = {
   leds: ['#FF5A5A', '#FFD23F', '#43D17A'],
   body: '#B6BDC6',
   outline: '#1B1B1F',
+  title: '#FFCB05',
+  titleOutline: '#2A75BB',
 } as const;
+
+export const DisplayFont = 'LuckiestGuy_400Regular';
 
 export const Radius = {
   sm: 8,
