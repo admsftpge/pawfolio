@@ -70,3 +70,7 @@ screens (src/app)            – render state, fire callbacks; no business logic
 ## Testing
 
 The join — the one place with real logic — has 7 unit tests (`src/data/cat-cards.test.ts`) via jest-expo: empty inputs, zero-match defaults, mixed-vote summing, per-cat independence, favourite attachment, orphaned rows. UI and API layers are thin enough to verify by inspection and manual testing across iOS / Android / web.
+
+## AI assistance
+
+Built with AI assistance (Anthropic's Claude, via Claude Code) as a pair programmer — design discussion, code generation, and review. All decisions, commits, and manual testing are my own.
