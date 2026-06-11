@@ -128,7 +128,8 @@ export default function UploadScreen() {
               themeColor="textSecondary"
               style={styles.changeLink}
               accessibilityRole="button"
-              onPress={pickImage}>
+              disabled={upload.isPending}
+              onPress={upload.isPending ? undefined : pickImage}>
               Choose a different photo
             </ThemedText>
           </View>
