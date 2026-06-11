@@ -1,4 +1,4 @@
-import { ActivityIndicator, StyleSheet } from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 import { Banner } from '@/components/banner';
 import { CatGrid } from '@/components/cat-grid';
@@ -11,47 +11,51 @@ export default function FavouritesScreen() {
   const { cats, isLoading, error, refetch } = useCats();
   const favourites = cats?.filter((cat) => cat.favouriteId !== null);
 
-  if (isLoading) {
-    return (
-      <ScreenBackground style={styles.center}>
-        <ActivityIndicator size="large" />
-      </ScreenBackground>
-    );
-  }
+  function renderContent() {
+    if (isLoading) {
+      return (
+        <View style={styles.center}>
+          <ActivityIndicator size="large" />
+        </View>
+      );
+    }
 
-  if (error || !favourites) {
-    return (
-      <ScreenPlaceholder
-        icon="cloud-offline-outline"
-        title="Something went wrong"
-        subtitle="Couldn't fetch your favourites. Check your connection and try again."
-        action={
-          <ThemedText
-            type="smallBold"
-            themeColor="accent"
-            accessibilityRole="button"
-            onPress={() => refetch()}>
-            Try again
-          </ThemedText>
-        }
-      />
-    );
-  }
+    if (error || !favourites) {
+      return (
+        <ScreenPlaceholder
+          icon="cloud-offline-outline"
+          title="Something went wrong"
+          subtitle="Couldn't fetch your favourites. Check your connection and try again."
+          action={
+            <ThemedText
+              type="smallBold"
+              themeColor="accent"
+              accessibilityRole="button"
+              onPress={() => refetch()}>
+              Try again
+            </ThemedText>
+          }
+        />
+      );
+    }
 
-  if (favourites.length === 0) {
-    return (
-      <ScreenPlaceholder
-        icon="heart-outline"
-        title="No favourites yet"
-        subtitle="Tap a heart to start your hall of fame."
-      />
-    );
+    if (favourites.length === 0) {
+      return (
+        <ScreenPlaceholder
+          icon="heart-outline"
+          title="No favourites yet"
+          subtitle="Tap a heart to start your hall of fame."
+        />
+      );
+    }
+
+    return <CatGrid cats={favourites} onRefresh={refetch} />;
   }
 
   return (
     <ScreenBackground>
       <Banner title="Favourites" />
-      <CatGrid cats={favourites} onRefresh={refetch} />
+      {renderContent()}
     </ScreenBackground>
   );
 }

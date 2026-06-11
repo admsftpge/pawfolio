@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import { ActivityIndicator, StyleSheet } from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 import { AppButton } from '@/components/app-button';
 import { Banner } from '@/components/banner';
@@ -13,48 +13,52 @@ export default function HomeScreen() {
   const router = useRouter();
   const { cats, isLoading, error, refetch } = useCats();
 
-  if (isLoading) {
-    return (
-      <ScreenBackground style={styles.center}>
-        <ActivityIndicator size="large" />
-      </ScreenBackground>
-    );
-  }
+  function renderContent() {
+    if (isLoading) {
+      return (
+        <View style={styles.center}>
+          <ActivityIndicator size="large" />
+        </View>
+      );
+    }
 
-  if (error || !cats) {
-    return (
-      <ScreenPlaceholder
-        icon="cloud-offline-outline"
-        title="Something went wrong"
-        subtitle="Couldn't fetch your cats. Check your connection and try again."
-        action={
-          <ThemedText
-            type="smallBold"
-            themeColor="accent"
-            accessibilityRole="button"
-            onPress={() => refetch()}>
-            Try again
-          </ThemedText>
-        }
-      />
-    );
-  }
+    if (error || !cats) {
+      return (
+        <ScreenPlaceholder
+          icon="cloud-offline-outline"
+          title="Something went wrong"
+          subtitle="Couldn't fetch your cats. Check your connection and try again."
+          action={
+            <ThemedText
+              type="smallBold"
+              themeColor="accent"
+              accessibilityRole="button"
+              onPress={() => refetch()}>
+              Try again
+            </ThemedText>
+          }
+        />
+      );
+    }
 
-  if (cats.length === 0) {
-    return (
-      <ScreenPlaceholder
-        icon="paw-outline"
-        title="No cats yet"
-        subtitle="Your Pawfolio is waiting for its first star."
-        action={<AppButton title="Upload a cat" onPress={() => router.navigate('/upload')} />}
-      />
-    );
+    if (cats.length === 0) {
+      return (
+        <ScreenPlaceholder
+          icon="paw-outline"
+          title="No cats yet"
+          subtitle="Your Pawfolio is waiting for its first star."
+          action={<AppButton title="Upload a cat" onPress={() => router.navigate('/upload')} />}
+        />
+      );
+    }
+
+    return <CatGrid cats={cats} onRefresh={refetch} />;
   }
 
   return (
     <ScreenBackground>
       <Banner title="Pawfolio" />
-      <CatGrid cats={cats} onRefresh={refetch} />
+      {renderContent()}
     </ScreenBackground>
   );
 }

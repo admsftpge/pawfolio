@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { ImageBackground, StyleProp, StyleSheet, ViewStyle } from 'react-native';
+import { ImageBackground, StyleSheet } from 'react-native';
 
 import { Colors } from '@/constants/theme';
 
@@ -7,15 +7,14 @@ const texture = require('../../assets/images/background.png');
 
 type Props = {
   children: ReactNode;
-  style?: StyleProp<ViewStyle>;
 };
 
-export function ScreenBackground({ children, style }: Props) {
+export function ScreenBackground({ children }: Props) {
   return (
     <ImageBackground
       source={texture}
       resizeMode="repeat"
-      style={[styles.background, style]}
+      style={styles.background}
       imageStyle={styles.texture}>
       {children}
     </ImageBackground>
