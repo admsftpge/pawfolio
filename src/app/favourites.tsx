@@ -2,9 +2,9 @@ import { ActivityIndicator, StyleSheet } from 'react-native';
 
 import { Banner } from '@/components/banner';
 import { CatGrid } from '@/components/cat-grid';
+import { ScreenBackground } from '@/components/screen-background';
 import { ScreenPlaceholder } from '@/components/screen-placeholder';
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
 import { useCats } from '@/hooks/use-cats';
 
 export default function FavouritesScreen() {
@@ -13,9 +13,9 @@ export default function FavouritesScreen() {
 
   if (isLoading) {
     return (
-      <ThemedView style={styles.center}>
+      <ScreenBackground style={styles.center}>
         <ActivityIndicator size="large" />
-      </ThemedView>
+      </ScreenBackground>
     );
   }
 
@@ -49,15 +49,14 @@ export default function FavouritesScreen() {
   }
 
   return (
-    <ThemedView style={styles.container}>
+    <ScreenBackground>
       <Banner title="Favourites" />
       <CatGrid cats={favourites} onRefresh={refetch} />
-    </ThemedView>
+    </ScreenBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
   center: {
     flex: 1,
     alignItems: 'center',

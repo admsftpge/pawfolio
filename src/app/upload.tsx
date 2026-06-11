@@ -8,8 +8,8 @@ import { Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 're
 import { getApiErrorMessage } from '@/api/client';
 import { AppButton } from '@/components/app-button';
 import { Banner } from '@/components/banner';
+import { ScreenBackground } from '@/components/screen-background';
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
 import { FormMaxWidth, Radius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { useUploadCat } from '@/hooks/use-upload-cat';
@@ -74,7 +74,7 @@ export default function UploadScreen() {
   );
 
   return (
-    <ThemedView style={styles.container}>
+    <ScreenBackground>
       <Banner title="Upload a cat" />
       <ScrollView contentContainerStyle={styles.content}>
         <Pressable
@@ -137,12 +137,11 @@ export default function UploadScreen() {
           </View>
         )}
       </ScrollView>
-    </ThemedView>
+    </ScreenBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
   content: {
     padding: Spacing.four,
     gap: Spacing.four,
