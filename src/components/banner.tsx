@@ -3,15 +3,8 @@ import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
-import { Radius, Spacing } from '@/constants/theme';
+import { Motif, Radius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
-
-// The "instrument panel" lens + status lights are intrinsic to the motif, not
-// theme roles — they stay fixed if the app palette is repainted, so they live
-// here rather than in the semantic palette.
-const LENS_COLOR = '#3FA2F6';
-const LENS_HIGHLIGHT = 'rgba(255, 255, 255, 0.55)';
-const LED_COLORS = ['#FF5A5A', '#FFD23F', '#43D17A'];
 
 type Props = {
   title: string;
@@ -33,7 +26,7 @@ export function Banner({ title }: Props) {
           <View style={styles.lensHighlight} />
         </View>
         <View style={styles.leds}>
-          {LED_COLORS.map((color) => (
+          {Motif.leds.map((color) => (
             <View key={color} style={[styles.led, { backgroundColor: color }]} />
           ))}
         </View>
@@ -62,7 +55,7 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: LENS_COLOR,
+    backgroundColor: Motif.lens,
     borderWidth: 2,
     borderColor: '#FFFFFF',
     overflow: 'hidden',
@@ -74,7 +67,7 @@ const styles = StyleSheet.create({
     width: 12,
     height: 12,
     borderRadius: 6,
-    backgroundColor: LENS_HIGHLIGHT,
+    backgroundColor: Motif.lensHighlight,
   },
   leds: {
     flexDirection: 'row',
@@ -85,7 +78,6 @@ const styles = StyleSheet.create({
     height: 8,
     borderRadius: 4,
   },
-  // Smaller than the `subtitle` type's 32px so the header stays compact.
   title: {
     fontSize: 26,
     lineHeight: 30,

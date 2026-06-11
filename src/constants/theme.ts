@@ -2,8 +2,6 @@ import '@/global.css';
 
 import { Platform } from 'react-native';
 
-// Components reference these roles, never raw hex — repainting the app is an
-// edit to this block only.
 export const Colors = {
   text: '#1B1B1F',
   background: '#EEF1F4',
@@ -21,6 +19,12 @@ export const Colors = {
 } as const;
 
 export type ThemeColor = keyof typeof Colors;
+
+export const Motif = {
+  lens: '#3FA2F6',
+  lensHighlight: 'rgba(255, 255, 255, 0.55)',
+  leds: ['#FF5A5A', '#FFD23F', '#43D17A'],
+} as const;
 
 export const Radius = {
   sm: 8,

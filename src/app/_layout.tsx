@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { DefaultTheme, Tabs, ThemeProvider } from 'expo-router';
 
+import { PawfolioTabIcon } from '@/components/pawfolio-tab-icon';
 import { Colors } from '@/constants/theme';
 
 const queryClient = new QueryClient();
@@ -31,7 +32,7 @@ export default function RootLayout() {
             name="index"
             options={{
               title: 'Pawfolio',
-              tabBarIcon: ({ color, size }) => <Ionicons name="paw" color={color} size={size} />,
+              tabBarIcon: () => <PawfolioTabIcon />,
             }}
           />
           <Tabs.Screen
