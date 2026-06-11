@@ -4,10 +4,10 @@ import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { getApiErrorMessage } from '@/api/client';
 import { AppButton } from '@/components/app-button';
+import { Banner } from '@/components/banner';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { FormMaxWidth, Radius, Spacing } from '@/constants/theme';
@@ -75,71 +75,68 @@ export default function UploadScreen() {
 
   return (
     <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.container} edges={['top']}>
-        <ScrollView contentContainerStyle={styles.content}>
-          <ThemedText type="subtitle">Upload a cat</ThemedText>
-
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={asset ? 'Choose a different photo' : 'Choose a photo'}
-            disabled={upload.isPending}
-            onPress={pickImage}>
-            {asset ? (
-              <Image
-                source={{ uri: asset.uri }}
-                style={[styles.preview, { width: previewSize, height: previewSize }]}
-                contentFit="cover"
-                accessibilityLabel="Preview of the photo you picked"
-              />
-            ) : (
-              <View
-                style={[
-                  styles.preview,
-                  { width: previewSize, height: previewSize },
-                  styles.dropZone,
-                  { borderColor: theme.textSecondary, backgroundColor: theme.backgroundElement },
-                ]}>
-                <Ionicons name="camera-outline" size={44} color={theme.textSecondary} />
-                <ThemedText type="smallBold" themeColor="textSecondary" style={styles.dropZoneText}>
-                  Show us your finest feline
-                </ThemedText>
-                <ThemedText type="small" themeColor="textSecondary" style={styles.dropZoneText}>
-                  Any photo — we’ll optimise it for you
-                </ThemedText>
-              </View>
-            )}
-          </Pressable>
-
-          {errorMessage && (
-            <ThemedText
-              type="smallBold"
-              themeColor="danger"
-              style={styles.error}
-              accessibilityRole="alert">
-              {errorMessage}
-            </ThemedText>
-          )}
-
-          {asset && (
-            <View style={styles.actions}>
-              <AppButton
-                title="Add to Pawfolio"
-                onPress={submit}
-                disabled={Boolean(validationError)}
-                loading={upload.isPending}
-              />
-              <ThemedText
-                type="smallBold"
-                themeColor="textSecondary"
-                style={styles.changeLink}
-                accessibilityRole="button"
-                onPress={pickImage}>
-                Choose a different photo
+      <Banner title="Upload a cat" subtitle="Add a cat to your Pawfolio." />
+      <ScrollView contentContainerStyle={styles.content}>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={asset ? 'Choose a different photo' : 'Choose a photo'}
+          disabled={upload.isPending}
+          onPress={pickImage}>
+          {asset ? (
+            <Image
+              source={{ uri: asset.uri }}
+              style={[styles.preview, { width: previewSize, height: previewSize }]}
+              contentFit="cover"
+              accessibilityLabel="Preview of the photo you picked"
+            />
+          ) : (
+            <View
+              style={[
+                styles.preview,
+                { width: previewSize, height: previewSize },
+                styles.dropZone,
+                { borderColor: theme.textSecondary, backgroundColor: theme.backgroundElement },
+              ]}>
+              <Ionicons name="camera-outline" size={44} color={theme.textSecondary} />
+              <ThemedText type="smallBold" themeColor="textSecondary" style={styles.dropZoneText}>
+                Show us your finest feline
+              </ThemedText>
+              <ThemedText type="small" themeColor="textSecondary" style={styles.dropZoneText}>
+                Any photo — we’ll optimise it for you
               </ThemedText>
             </View>
           )}
-        </ScrollView>
-      </SafeAreaView>
+        </Pressable>
+
+        {errorMessage && (
+          <ThemedText
+            type="smallBold"
+            themeColor="danger"
+            style={styles.error}
+            accessibilityRole="alert">
+            {errorMessage}
+          </ThemedText>
+        )}
+
+        {asset && (
+          <View style={styles.actions}>
+            <AppButton
+              title="Add to Pawfolio"
+              onPress={submit}
+              disabled={Boolean(validationError)}
+              loading={upload.isPending}
+            />
+            <ThemedText
+              type="smallBold"
+              themeColor="textSecondary"
+              style={styles.changeLink}
+              accessibilityRole="button"
+              onPress={pickImage}>
+              Choose a different photo
+            </ThemedText>
+          </View>
+        )}
+      </ScrollView>
     </ThemedView>
   );
 }

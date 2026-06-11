@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import { ReactNode, useState } from 'react';
+import { useState } from 'react';
 import {
   FlatList,
   Pressable,
@@ -22,11 +22,10 @@ type ViewMode = 'grid' | 'list';
 
 type Props = {
   cats: CatCardModel[];
-  header: ReactNode;
   onRefresh: () => Promise<unknown>;
 };
 
-export function CatGrid({ cats, header, onRefresh }: Props) {
+export function CatGrid({ cats, onRefresh }: Props) {
   const theme = useTheme();
   const { width, height } = useWindowDimensions();
   const [refreshing, setRefreshing] = useState(false);
@@ -79,12 +78,9 @@ export function CatGrid({ cats, header, onRefresh }: Props) {
       columnWrapperStyle={columns > 1 ? styles.row : undefined}
       contentContainerStyle={[styles.list, { maxWidth: layoutMaxWidth }]}
       ListHeaderComponent={
-        <View style={styles.headerRow}>
-          {header}
-          <View style={[styles.modeToggle, { backgroundColor: theme.backgroundElement }]}>
-            {modeButton('grid', 'grid-outline', 'Grid view')}
-            {modeButton('list', 'list-outline', 'List view')}
-          </View>
+        <View style={[styles.modeToggle, { backgroundColor: theme.backgroundElement }]}>
+          {modeButton('grid', 'grid-outline', 'Grid view')}
+          {modeButton('list', 'list-outline', 'List view')}
         </View>
       }
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} />}
@@ -102,15 +98,11 @@ const styles = StyleSheet.create({
   row: {
     gap: GAP,
   },
-  headerRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
-  },
   modeToggle: {
     flexDirection: 'row',
     borderRadius: Radius.pill,
     padding: Spacing.half,
+    alignSelf: 'flex-end',
   },
   modeButton: {
     paddingHorizontal: Spacing.two + Spacing.half,

@@ -1,11 +1,10 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { ActivityIndicator, StyleSheet } from 'react-native';
 
+import { Banner } from '@/components/banner';
 import { CatGrid } from '@/components/cat-grid';
 import { ScreenPlaceholder } from '@/components/screen-placeholder';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Spacing } from '@/constants/theme';
 import { useCats } from '@/hooks/use-cats';
 
 export default function FavouritesScreen() {
@@ -51,20 +50,8 @@ export default function FavouritesScreen() {
 
   return (
     <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.container} edges={['top']}>
-        <CatGrid
-          cats={favourites}
-          header={
-            <View style={styles.header}>
-              <ThemedText type="subtitle">Favourites</ThemedText>
-              <ThemedText type="small" themeColor="textSecondary">
-                The hall of fame.
-              </ThemedText>
-            </View>
-          }
-          onRefresh={refetch}
-        />
-      </SafeAreaView>
+      <Banner title="Favourites" subtitle="The hall of fame." />
+      <CatGrid cats={favourites} onRefresh={refetch} />
     </ThemedView>
   );
 }
@@ -75,9 +62,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  header: {
-    gap: Spacing.half,
-    paddingBottom: Spacing.two,
   },
 });

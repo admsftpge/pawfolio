@@ -1,13 +1,12 @@
 import { useRouter } from 'expo-router';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { ActivityIndicator, StyleSheet } from 'react-native';
 
 import { AppButton } from '@/components/app-button';
+import { Banner } from '@/components/banner';
 import { CatGrid } from '@/components/cat-grid';
 import { ScreenPlaceholder } from '@/components/screen-placeholder';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Spacing } from '@/constants/theme';
 import { useCats } from '@/hooks/use-cats';
 
 export default function HomeScreen() {
@@ -54,22 +53,8 @@ export default function HomeScreen() {
 
   return (
     <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.container} edges={['top']}>
-        <CatGrid
-          cats={cats}
-          header={
-            <View style={styles.header}>
-              <ThemedText type="subtitle">
-                Paw<ThemedText type="subtitle" themeColor="accent">folio</ThemedText>
-              </ThemedText>
-              <ThemedText type="small" themeColor="textSecondary">
-                Your finest felines, rated and adored.
-              </ThemedText>
-            </View>
-          }
-          onRefresh={refetch}
-        />
-      </SafeAreaView>
+      <Banner title="Pawfolio" subtitle="Your finest felines, rated and adored." />
+      <CatGrid cats={cats} onRefresh={refetch} />
     </ThemedView>
   );
 }
@@ -80,9 +65,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  header: {
-    gap: Spacing.half,
-    paddingBottom: Spacing.two,
   },
 });
